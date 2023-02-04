@@ -78,10 +78,6 @@ def stop():
     loop_w = False
     listener.stop()
 
-def on_move(x, y):
-    # print(f'Pointer moved to {(x, y)}')
-    pass
-
 def on_click(x: int, y: int, button: mouse.Button, pressed: bool):
     aw = getActiveWindow()
     now = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
@@ -92,14 +88,6 @@ def on_click(x: int, y: int, button: mouse.Button, pressed: bool):
     else:
         print(clobj)
         
-    
-
-def on_scroll(x, y, dx, dy):
-    print('Scrolled {0} at {1} d: {2}'.format(
-        'down' if dy < 0 else 'up',
-        (x, y), (dx, dy)))
-    # if dy < 0:
-    #     stop()
 
 listener = mouse.Listener(on_click=on_click)
 

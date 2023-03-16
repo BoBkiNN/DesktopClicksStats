@@ -15,7 +15,7 @@ Python program to collect statistics about clicks on desktop
 ## Using
 
 * At start, click at your desktop and then press Enter key.
-* To show your statistics graphically, put some image to project folder and name it `desktop.png` or don`t put that image to create transparent render, and then launch `render.py` file. This will create render.png file with resut render
+* To show your statistics graphically, put some image to project folder and name it `desktop.png` or don\`t put that image to create transparent render, and then launch `render.py` file. This will create `render.png` file with resut render
 * Adding to startup:
   - Press Win+R and type there `shell:startup` and then press Enter.
   - Create new file with `.bat` extinsion in some folder and then create link to `Startup` folder that you opened in step above.

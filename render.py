@@ -1,4 +1,4 @@
-import pygame
+from PIL import Image, ImageDraw
 import os
 import json
 import time
@@ -8,16 +8,16 @@ import threading
 dbfile = os.getcwd()+os.sep+"db.json"
 
 
-pygame.init()
-scrn = pygame.display.set_mode((1920, 1080))
-clock = pygame.time.Clock()
+
 LEFT = (66, 245, 66)
 RIGHT = (245, 87, 66)
 MIDDLE = (218, 66, 245)
 
-imp = pygame.image.load("desktop.png").convert()
-
-scrn.blit(imp, (0, 0))
+try:
+    imp = Image.open("desktop.png")
+except:
+    imp = Image.new(mode="RGBA", size=(1920, 1080), color=(0, 0, 0, 0))
+imd = ImageDraw.Draw(imp)
 
 
 def loadCl() -> list:
@@ -26,16 +26,6 @@ def loadCl() -> list:
     return j["clicks"]
 
 clicks = loadCl()
-
-loop_w = True
-def loadloop():
-    while loop_w:
-        global clicks
-        clicks = loadCl()
-        time.sleep(1)
-
-loop_th = threading.Thread(target=loadloop)
-loop_th.start()
 
 def drawCl(x, y, btn):
     r = 4
@@ -47,21 +37,15 @@ def drawCl(x, y, btn):
         color = RIGHT
     else:
         color = MIDDLE
-    pygame.draw.line(scrn, color, l1s, l1e)
+    cords1 = [tuple(l1s), tuple(l1e)]
+    imd.line(cords1, fill=color, width=1)
     l2s = [x, y+r]
     l2e = [x, y-r]
-    pygame.draw.line(scrn, color, l2s, l2e)
+    cords2 = [tuple(l2s), tuple(l2e)]
+    imd.line(cords2, fill=color, width=1)
 
-pygame.display.flip()
-running = True
-while running:
-    for c in clicks:
-        c: dict
-        drawCl(c["x"], c["y"], c["btn"])
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            loop_w = False
-            running = False
+for c in clicks:
+    c: dict
+    drawCl(c["x"], c["y"], c["btn"])
 
-    pygame.display.flip()
-    clock.tick(60)
+imp.save(os.getcwd()+os.sep+"render.png", optimize=False)
